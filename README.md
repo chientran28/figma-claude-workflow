@@ -59,7 +59,10 @@ Open Claude Code in your project root, then run:
 /init-ui-workspace
 ```
 This scans your project's color/font/asset Dart files, sets `figma_file_id`, and builds `token_map.json` (Figma variables → Dart constants).
-
+Then
+```
+/get-exist-design
+```
 **3. Convert your first screen**
 ```
 /organize-figma https://www.figma.com/design/YOUR_FILE/...?node-id=123-456
