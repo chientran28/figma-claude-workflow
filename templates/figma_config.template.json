@@ -1,0 +1,38 @@
+{
+  "_readme": "Copy this file to .ui-workspace/figma_config.json and fill in <...> placeholders. Then run /init-ui-workspace to auto-scan project_sources and validate.",
+
+  "figma_file_id": "<FIGMA_FILE_ID>",
+  "_figma_file_id_hint": "From Figma URL: https://www.figma.com/design/<FILE_ID>/...",
+
+  "enable_html_visualization": true,
+  "_html_hint": "true = pipeline generates preview.html (iPhone mockup) so you can review before coding. false = PNG only.",
+
+  "project_sources": {
+    "color": {
+      "dart_files": ["lib/core/theme/app_colors.dart"],
+      "classes": ["AppColors"],
+      "_hint": "Dart files that declare your color constants. /init-ui-workspace auto-scans and fills this."
+    },
+    "font": {
+      "dart_files": ["lib/core/theme/app_text_styles.dart"],
+      "classes": ["AppTextStyle"],
+      "font_family": "<FONT_FAMILY>",
+      "pubspec": "pubspec.yaml",
+      "_hint": "font_family must match the family name declared under flutter > fonts in pubspec.yaml"
+    },
+    "asset": {
+      "svg": {
+        "dart_file": "lib/core/config/app_svgs.dart",
+        "class": "AppSVGs",
+        "dir": "assets/vectors/"
+      },
+      "image": {
+        "dart_file": "lib/core/config/app_images.dart",
+        "class": "AppImages",
+        "dir": "assets/images/"
+      },
+      "pubspec": "pubspec.yaml",
+      "registry": ".ui-workspace/exist_design/assets.md"
+    }
+  }
+}

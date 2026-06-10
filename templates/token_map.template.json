@@ -1,0 +1,11 @@
+{
+  "_readme": "Map Figma variable/token names → Dart constant references. figma_preprocessor.py Pass 1 reads this file. Run /init-ui-workspace to auto-generate from Figma MCP (get_variable_defs) + project_sources scan.",
+  "_format": "\"figma.token.path\": \"DartClass.fieldName\"",
+  "_examples": {
+    "color.brand.primary": "AppColors.brandPrimary",
+    "color.surface.white": "AppColors.white",
+    "color.neutral.100": "AppColors.grey100",
+    "gradient.brand.main": "AppColors.gradientBrand"
+  },
+  "_note": "Keys are normalized to lowercase with dots. Values are the exact Dart const reference used in generated code."
+}

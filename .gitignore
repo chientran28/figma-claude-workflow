@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# temp files from install testing
+*.backup.*
+test-project/

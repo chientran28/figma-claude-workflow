@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "figma-mcp-go": {
+      "command": "figma-mcp-go",
+      "args": [],
+      "_readme": "Install figma-mcp-go: https://github.com/oaoa/figma-mcp-go — then start server via Figma Desktop > Plugins > figma-mcp-go > Start Server"
+    }
+  }
+}
