@@ -49,7 +49,7 @@ CLAUDE_DIR="$PROJECT_ROOT/.claude"
 WS_DIR="$PROJECT_ROOT/.ui-workspace"
 
 # ── 2. Resolve kit source (local clone vs remote tarball) ────
-if [ -d "$(dirname "$0")/kit" ]; then
+if [ -f "$(dirname "$0")/kit/skills/organize-figma/SKILL.md" ]; then
   # Running from a local clone
   SRC="$(cd "$(dirname "$0")" && pwd)"
   info "Source       : local clone at $SRC"
@@ -88,7 +88,7 @@ merge_settings() {
     return
   fi
 
-  # Deep-merge hooks arrays (concat) + permissions.allow (union)
+  # Deep-merge hooks arrays (concat + dedupe — idempotent on re-run/upgrade)
   jq -s '
     .[0] as $base | .[1] as $frag |
     $base
@@ -97,7 +97,7 @@ merge_settings() {
         to_entries |
         . + (($frag.hooks // {}) | to_entries) |
         group_by(.key) |
-        map({ key: .[0].key, value: ([ .[].value ] | add) }) |
+        map({ key: .[0].key, value: ([ .[].value ] | add | unique) }) |
         from_entries
       )
     | .permissions.allow = (
@@ -183,7 +183,7 @@ if [ -f "$GI" ] && ! grep -q "figma-to-flutter pipeline" "$GI" 2>/dev/null; then
 .ui-workspace/*/figma_asset/
 .ui-workspace/*/preview.html
 .ui-workspace/*/pipeline.md
-.claude/*.backup.*
+.claude.backup.*/
 GITIGNORE
   success "Updated      : .gitignore"
 elif [ ! -f "$GI" ]; then
@@ -196,7 +196,7 @@ elif [ ! -f "$GI" ]; then
 .ui-workspace/*/figma_asset/
 .ui-workspace/*/preview.html
 .ui-workspace/*/pipeline.md
-.claude/*.backup.*
+.claude.backup.*/
 GITIGNORE
   success "Created      : .gitignore"
 fi

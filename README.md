@@ -151,7 +151,7 @@ Maps Figma variable names to Dart constants. Built by `/init-ui-workspace` via `
 | `token_map.json` content | Each project has different Figma tokens + Dart class names | `/init-ui-workspace` generates a proposal; you confirm |
 | `figma_file_id` | Specific to your team's Figma file | Set during `/init-ui-workspace` |
 | `project_sources` paths | Different projects use different file structures | Auto-scanned by `/init-ui-workspace` |
-| Knowledge files content | Patterns are project-specific; seeding cross-project causes wrong outputs | Pipeline learns via `/learn-from-failed` |
+| Project-specific knowledge | Knowledge files ship pre-seeded with **generic** Flutter rendering patterns (FX-GLASS, FX-GRADBDR, UI-LAYOUT-xxx error registry…); project-specific patterns accumulate over time | Pipeline learns via `/learn-from-failed` |
 | `CLAUDE.md` project rules | Stack conventions (Riverpod/BLoC, GoRouter/AutoRoute) vary | Write your own `CLAUDE.md` |
 
 ---

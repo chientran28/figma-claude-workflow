@@ -58,7 +58,11 @@ info "Removing commands..."
 for c in $PIPELINE_CMDS; do
   [ -f "$CLAUDE_DIR/commands/$c.md" ] && rm -f "$CLAUDE_DIR/commands/$c.md" && echo "  - $c"
 done
-[ -d "$CLAUDE_DIR/commands/scripts" ] && rm -rf "$CLAUDE_DIR/commands/scripts" && echo "  - commands/scripts/"
+# Only remove our script — user may keep their own files in commands/scripts/
+[ -f "$CLAUDE_DIR/commands/scripts/figma_preprocessor.py" ] \
+  && rm -f "$CLAUDE_DIR/commands/scripts/figma_preprocessor.py" \
+  && echo "  - commands/scripts/figma_preprocessor.py"
+rmdir "$CLAUDE_DIR/commands/scripts" 2>/dev/null || true
 
 # Hooks
 info "Removing hooks..."
@@ -84,15 +88,13 @@ if command -v jq >/dev/null 2>&1 && [ -f "$SETTINGS" ]; then
     .hooks |= (
       if . == null then null
       else
-        to_entries |
-        map(
-          .value |= map(
-            .hooks |= map(select(.command | test($pat) | not))
-          ) |
-          map(select(.hooks | length > 0))
-        ) |
-        map(select(.value | length > 0)) |
-        from_entries
+        with_entries(
+          .value |= (
+            map(.hooks |= map(select(.command | test($pat) | not)))
+            | map(select(.hooks | length > 0))
+          )
+        )
+        | with_entries(select(.value | length > 0))
       end
     )
   ' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
@@ -115,6 +117,5 @@ fi
 # ── Done ─────────────────────────────────────────────────────
 echo ""
 success "Pipeline uninstalled from $PROJECT_ROOT"
-[ -d "$CLAUDE_DIR/.claude.backup"* 2>/dev/null ] || true
 echo "  Note: any .claude.backup.* directories from install were not removed."
 echo ""
